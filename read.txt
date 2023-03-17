@@ -1,0 +1,6 @@
+// gpt-3.5-turbo
+// replace .createCompletion() with .createChatCompletion()
+// replace prompt with messages and set prompt as content with a role.
+//Role-1 => System :- defines the behaviour of the assistant. The one who defines it can also be the user.
+//Role-2 => User :- The one who asks the questions.
+//Role-3 => Assistant :- The one who responds.
