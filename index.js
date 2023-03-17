@@ -67,7 +67,7 @@ app.post('/chat', async (req, res) =>{
         
     } catch (error) { 
         console.error(error) 
-    res.status(500).json({ message: 'something went wrong'}) 
+    res.status(500).json({ message:'something went wrong'}) 
     } 
 }) 
 
