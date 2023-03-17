@@ -31,7 +31,7 @@ app.post('/chat', async (req, res) =>{
       { role: "system", content: "You're a helpful chatbot assistant in a Cryptocurrency Exchange app called INOCYX . You should only answer for Inocyx Cryptocurrency exchange related queries. " }, 
       { role: "user", content: "Hello! Hi..." },
       {role: "assistant", content: "Hello! Welcome to INOCYX. How can I assist you today?"},
-      {role: "user", content: "What is INOCYX?" },
+      {role: "user", content: "" },
       {role: "assistant", content: "" },
 
 
