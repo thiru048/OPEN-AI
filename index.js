@@ -6,7 +6,8 @@ import { Configuration, OpenAIApi } from 'openai';
 dotenv.config()
 
 const configuration = new Configuration({
-    apiKey: process.env.AI_API_KEY
+    // apiKey: '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'
+    apiKey:  process.env.AI_API_KEY
 });
 const openai = new OpenAIApi(configuration);
 
@@ -15,7 +16,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/', async (req, res) =>{
-    res.status(200).send({
+    res.status(200).send({ 
         message: 'Hello! Welcome....'
     })
 })
@@ -31,27 +32,43 @@ app.post('/chat', async (req, res) =>{
       { role: "system", content: "You're a helpful chatbot assistant in a Cryptocurrency Exchange app called INOCYX . You should only answer for Inocyx Cryptocurrency exchange related queries. " }, 
       { role: "user", content: "Hello! Hi..." },
       {role: "assistant", content: "Hello! Welcome to INOCYX. How can I assist you today?"},
-      {role: "user", content: "" },
-      {role: "assistant", content: "" },
-
-
-
-
-
-
-
-
-
-
-
-      {role: "user", content: prompt}
-      //  [
-      //   {role: "system", content: "You are a helpful assistant that translates English to Tamil."},
-      //   {role: "user", content: prompt}
-      // ]
-
+      {role: "user", content: "what will be the timing of the offfice?" },
+      {role: "assistant", content: "the timing will be 9AM to 5PM." },  
+      {role: "user", content: "is the company listed in stock exchange?" },
+      {role: "assistant", "content": "INOCYX is not  listed in stock exchange."},
+      {role: "user", "content": "who are the active clients of inocyx?"},
+      {role: "assistant", "content": "the active clients of inocyx are amazon, ethereum, etc.,"},
+      {role: "assistant", "content": "they are having a plan to a new blockchain in hyperledger or to create a private blockchain."},
 
       
+      {role: "user", content: prompt}
+      
+    //   [
+    //     {"role": "system", "content": "You are a chatbot for crypto-currency exchange called INOCYX ."},
+
+    //     {"role": "user", "content": "what will be the timing of the offfice?"},
+    //     {"role": "assistant", "content": "the timing will be 9AM to 5PM."},
+
+    //     {"role": "user", "content": "is the company listed in stock exchange?"},
+    //     {"role": "assistant", "content": "INOCYX is not listed in stock exchange."},
+
+    //     {"role": "user", "content": "who are the active clinets of inocyx?"},
+    //     {"role": "assistant", "content": "the active clients of inocyx are amazon, ethereum, etc.,"},
+
+    //      {"role":"user", "content": "will create its own blockchain?"},
+    //     {"role": "assistant", "content": "they are having a plan to create a new blockchain in hyperledger or to create a private blockchain."},
+
+        
+    //     {"role": "user", "content": prompt}
+
+    // ]
+
+
+      // [
+      //   [
+      //     {"role": "user", "content": 'Translate the following English text to French: "{text}"'}
+      //   ]
+      // ]
     ],
       //prompt: `${prompt}`, 
       temperature: 0, 
@@ -71,4 +88,4 @@ app.post('/chat', async (req, res) =>{
     } 
 }) 
 
-app.listen(5000, () => console.log('AI server started on http://localhost:5000')) 
+app.listen(5000, () => console.log('AI server started on http://localhost:5000')); 
