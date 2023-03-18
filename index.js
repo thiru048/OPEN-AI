@@ -6,7 +6,7 @@ import { Configuration, OpenAIApi } from 'openai';
 dotenv.config()
 
 const configuration = new Configuration({
-    // apiKey: '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'
+    
     apiKey:  process.env.AI_API_KEY
 });
 const openai = new OpenAIApi(configuration);
@@ -35,10 +35,10 @@ app.post('/chat', async (req, res) =>{
       {role: "user", content: "what will be the timing of the offfice?" },
       {role: "assistant", content: "the timing will be 9AM to 5PM." },  
       {role: "user", content: "is the company listed in stock exchange?" },
-      {role: "assistant", "content": "INOCYX is not  listed in stock exchange."},
-      {role: "user", "content": "who are the active clients of inocyx?"},
-      {role: "assistant", "content": "the active clients of inocyx are amazon, ethereum, etc.,"},
-      {role: "assistant", "content": "they are having a plan to a new blockchain in hyperledger or to create a private blockchain."},
+      {role: "assistant", content: "INOCYX is not  listed in stock exchange."},
+      {role: "user", content: "who are the active clients of inocyx?"},
+      {role: "assistant", content: "the active clients of inocyx are amazon, ethereum, etc.,"},
+      {role: "assistant", content: "they are having a plan to a new blockchain in hyperledger or to create a private blockchain."},
 
       
       {role: "user", content: prompt}
