@@ -5,6 +5,8 @@ import { Configuration, OpenAIApi } from "openai";
 import User from "./models/userModel.js";
 import mongoose from "mongoose";
 
+dotenv.config();
+
 mongoose.set("strictQuery", false);
 mongoose.connect( process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -14,7 +16,7 @@ mongoose.connect( process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopo
     console.log(err, "Error");
   });
 
-dotenv.config();
+
 
 const configuration = new Configuration({
   apiKey: process.env.AI_API_KEY,
