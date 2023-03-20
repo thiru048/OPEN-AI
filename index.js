@@ -40,6 +40,22 @@ app.post('/chat', async (req, res) =>{
       {role: "assistant", content: "the active clients of inocyx are amazon, ethereum, etc.,"},
       {role: "assistant", content: "they are having a plan to a new blockchain in hyperledger or to create a private blockchain."},
 
+      {role: "user", content: ""},
+
+      {role: "user", content: ""},
+
+      {role: "user", content: ""},
+
+      {role: "user", content: ""},
+
+      
+      
+      
+      
+      
+
+
+
       
       {role: "user", content: prompt}
       
