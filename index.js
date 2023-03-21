@@ -2,21 +2,23 @@ import express from "express";
 import * as dotenv from "dotenv";
 import cors from "cors";
 import { Configuration, OpenAIApi } from "openai";
-import User from "./models/userModel.js";
 import mongoose from "mongoose";
+import Conversation from "./models/conversationModel.js";
 
 dotenv.config();
 
 mongoose.set("strictQuery", false);
-mongoose.connect( process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
-    console.log('Database connected successfully!');
+    console.log("Database connected successfully!");
   })
   .catch((err) => {
     console.log(err, "Error");
   });
-
-
 
 const configuration = new Configuration({
   apiKey: process.env.AI_API_KEY,
@@ -34,21 +36,14 @@ app.get("/", async (req, res) => {
 });
 app.post("/chat", async (req, res) => {
   try {
-    const prompt = new User({
-      Prompt: req.body.Prompt
-    });
+    // const prompt = new User({
+    //   Prompt: req.body.Prompt,
+    // });
 
-    prompt.save((err) =>{
-      if(err){
-        console.log(err);
-      } else {
-        console.log('prompt saved successfully')
-      }
-    });
-    
-    // req.body.prompt;
-    console.log(prompt);
+    // console.log(prompt);
 
+    const Prompt = req.body.Prompt;
+    console.log(Prompt)
     
 
     const completion = await openai.createChatCompletion({
@@ -64,27 +59,20 @@ app.post("/chat", async (req, res) => {
           role: "assistant",
           content: "Hello! Welcome to INOCYX. How can I assist you today?",
         },
-        { role: "user", content: "what will be the timing of the offfice?" },
-        { role: "assistant", content: "the timing will be 9AM to 5PM." },
+        { role: "user", content: "what will be the timing of the office?" },
+        { role: "assistant", content: " 9AM to 5PM." },
         { role: "user", content: "is the company listed in stock exchange?" },
         {
           role: "assistant",
-          content:
-            "INOCYX is not currently listed in any stock market. It is a cryptocurrency exchange platform that allows users to trade various cryptocurrencies.",
+          content: "INOCYX is not currently listed in any stock market. ",
         },
         { role: "user", content: "who are the active clients of inocyx?" },
         {
           role: "assistant",
           content: "the active clients of inocyx are amazon, ethereum, etc.,",
         },
-        {
-          role: "assistant",
-          content:
-            "they are having a plan to a new blockchain in hyperledger or to create a private blockchain.",
-        },
 
         { role: "user", content: "How to register with INOCYX?" },
-        //{role: "assistant", content: "To register with INOCYX, please follow these steps:\n\n1. Go to the INOCYX website or download the INOCYX app from your app store.\n2. Click on the \"Register\" button.\n3. Fill in your personal information, including your name, email address, and password.\n4. Verify your email address by clicking on the verification link sent to your email.\n5. Complete the KYC (Know Your Customer) process by providing a valid government-issued ID and a selfie of yourself holding the ID.\n6. Once your account is verified, you can start trading on INOCYX.\n\nIf you have any issues during the registration process, please don't hesitate to contact our customer support team for assistance"},
 
         { role: "user", content: "We didn't receive OTP" },
 
@@ -98,7 +86,7 @@ app.post("/chat", async (req, res) => {
 
         {
           role: "user",
-          content: "How can I come to know wheather my KYC verified or not?",
+          content: "How can I come to know whether my KYC verified or not?",
         },
 
         { role: "user", content: "How to add my bank details?" },
@@ -151,11 +139,6 @@ app.post("/chat", async (req, res) => {
           content:
             "What are the proof we should submitting for the KYC process?",
         },
-        {
-          role: "assistant",
-          content:
-            "For the KYC process, you will need to submit a government-issued ID proof such as Aadhaar card, PAN card, passport or driver's license. You will also need to provide a recent photograph(selfie) and a proof of address such as a bank statement or utility bill. The exact documents required may vary depending on your country of residence and the regulations in place.",
-        },
 
         { role: "user", content: "Is mobile number is mandatory?" },
 
@@ -205,29 +188,30 @@ app.post("/chat", async (req, res) => {
           content: "Is there any refund policy in your exchange?",
         },
 
-        { role: "user", content: prompt },
-
-        
-        // [
-        //   [
-        //     {"role": "user", "content": 'Translate the following English text to French: "{text}"'}
-        //   ]
-        // ]
+        { role: "user", content: Prompt },
       ],
-      
+
       temperature: 0,
       max_tokens: 500,
       top_p: 1,
       frequency_penalty: 0.5,
       presence_penalty: 0,
     });
-    console.log("conculsion", completion.data.choices[0]);
-    res.status(200).send({
-      assistant: completion.data.choices[0].message.content,
+
+    const response = completion.data.choices[0].message.content;
+
+    const conversation = new Conversation({
+      prompt: Prompt,
+      response: response,
     });
+
+    await conversation.save();
+
+    console.log("conculsion", completion.data.choices[0]);
+    res.status(200).send({ assistant: response });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "something went wrong" });
+    return res.status(500).json({ message: "something went wrong" });
   }
 });
 
