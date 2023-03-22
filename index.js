@@ -34,17 +34,11 @@ app.get("/", async (req, res) => {
     message: "Hello! Welcome....",
   });
 });
+
 app.post("/chat", async (req, res) => {
   try {
-    // const prompt = new User({
-    //   Prompt: req.body.Prompt,
-    // });
-
-    // console.log(prompt);
-
     const Prompt = req.body.Prompt;
-    console.log(Prompt)
-    
+    console.log(Prompt);
 
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
@@ -200,9 +194,18 @@ app.post("/chat", async (req, res) => {
 
     const response = completion.data.choices[0].message.content;
 
+    const promptTokens = completion.data.context
+      ? completion.data.context.length
+      : 0;
+    const responseTokens = completion.data.choices[0].tokens
+      ? completion.data.choices[0].tokens.length
+      : 0;
+
     const conversation = new Conversation({
       prompt: Prompt,
       response: response,
+      promptTokens: promptTokens,
+      responseTokens: responseTokens
     });
 
     await conversation.save();

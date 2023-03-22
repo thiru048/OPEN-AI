@@ -9,6 +9,14 @@ const conversationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  promptTokens: {
+    type:  mongoose.Schema.Types.Mixed,
+    required: false,
+  },
+  responseTokens: {
+    type: mongoose.Schema.Types.Mixed,
+    required: false,
+  },
 },{ timestamps: true});
 
 const Conversation = mongoose.model("Conversation", conversationSchema);
