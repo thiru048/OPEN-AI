@@ -10,11 +10,11 @@ const conversationSchema = new mongoose.Schema({
     required: true,
   },
   promptTokens: {
-    type:  mongoose.Schema.Types.Mixed,
+    type:  Number,
     required: false,
   },
   responseTokens: {
-    type: mongoose.Schema.Types.Mixed,
+    type: Number,
     required: false,
   },
 },{ timestamps: true});

@@ -194,12 +194,25 @@ app.post("/chat", async (req, res) => {
 
     const response = completion.data.choices[0].message.content;
 
-    const promptTokens = completion.data.context
-      ? completion.data.context.length
+    // const promptTokens = completion.data.context
+    //   ? completion.data.context.length
+    //   : 0;
+    // const responseTokens = completion.data.choices[0].tokens
+    //   ? completion.data.choices[0].tokens.length
+    //   : 0;
+
+    const context = completion.data.context;
+    const tokens = completion.data.choices[0].tokens;
+
+    const promptTokens = context
+      ? context.reduce((acc, curr) => acc + curr.split(" ").length, 0)
       : 0;
-    const responseTokens = completion.data.choices[0].tokens
-      ? completion.data.choices[0].tokens.length
-      : 0;
+    const responseTokens = tokens ? tokens.length : 0;
+
+
+  //   const tokenCount = response.data.choices[0].text.trim().split(' ').length;
+  // console.log('Token count:', tokenCount);
+
 
     const conversation = new Conversation({
       prompt: Prompt,
